@@ -1,0 +1,18 @@
+{
+  "name": "amaziv-mern",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd backend && npm install && npm run build && cd ../frontend && npm install && npm run build",
+    "start": " node backend/build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@typegoose/typegoose": "^11.2.0",
+    "reflect-metadata": "^0.1.13",
+    "type-env": "^1.1.0"
+  }
+}
