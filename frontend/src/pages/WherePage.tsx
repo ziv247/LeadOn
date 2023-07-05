@@ -42,8 +42,6 @@ export default function WherePage() {
     return userGroups.filter((grp: { isChecked: boolean }) => grp.isChecked);
   };
 
-  const componentClicked = (data: any) => {};
-
   const handleSearch = (e: any) => {
     setSearch(e.target.value);
   };
@@ -52,9 +50,6 @@ export default function WherePage() {
     e: React.ChangeEvent<HTMLInputElement>,
     group: { isChecked?: boolean; name?: string; id: any }
   ) => {
-    const prevGroups = userGroups.find(
-      (grp: { id: string }) => grp.id === group.id
-    );
 
     const newGroups: any[] = [...userGroups];
     newGroups.map((grp: any) => {
@@ -180,7 +175,6 @@ export default function WherePage() {
               autoLoad={true}
               version="17.0"
               fields="name,email,picture,groups"
-              onClick={componentClicked}
               callback={responseFacebook}
               size="small"
             />
