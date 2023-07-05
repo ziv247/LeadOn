@@ -20,9 +20,6 @@ function App() {
   } = useContext(Store);
 
   
-  console.log("APP")
-  console.log(userInfo)
-
   const signoutHandler = () => {
     dispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");

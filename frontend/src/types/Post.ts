@@ -1,12 +1,13 @@
 import { User } from "./User";
 
 export type Post = {
-  _id: string;
+  createdAt?: string ;
+  _id?: string;
   what: What;
   where: Where;
   when: When;
-  user: User;
-  isPending: boolean;
+  user?: User;
+  isPending?: boolean;
 };
 
 export type What = {

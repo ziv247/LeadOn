@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-case-declarations */
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -6,15 +8,17 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Post } from "../types/Post";
 
-function SortingBar({ posts, filteredListCB }) {
+function SortingBar(props: { posts: Post[]; filteredListCB: any; }) {
+  const { posts, filteredListCB } = props
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [filterBy, setFilterBy] = useState("");
   const [activeTarget, setActiveTarget] = useState<HTMLElement>();
-  const [search, setSearch] = useState();
+  const [, setSearch] = useState();
   const oneDay = 24 * 60 * 60 * 1000;
 
-  const filterClickedHandler = (e) => {
+  const filterClickedHandler = (e:any) => {
     const element = e.target as HTMLElement;
     setFilterBy(element.innerText);
     if (activeTarget) {
@@ -22,7 +26,6 @@ function SortingBar({ posts, filteredListCB }) {
     }
     setActiveTarget(element);
     element.classList.add("active");
-    console.log(e.target.id);
     const now = new Date();
 
     switch (e.target.id) {
@@ -35,8 +38,8 @@ function SortingBar({ posts, filteredListCB }) {
       case "filter2":
         setFilteredPosts(
           posts.filter((post) => {
-            const created = new Date(post.createdAt);
-            const milli = now - created;
+            const created = new Date(""+post.createdAt);
+            const milli = now.getTime() - created.getTime();
             return milli < oneDay;
           })
         );
@@ -44,8 +47,8 @@ function SortingBar({ posts, filteredListCB }) {
       case "filter3":
         setFilteredPosts(
           posts.filter((post) => {
-            const created = new Date(post.createdAt);
-            const milli = now - created;
+            const created = new Date(""+post.createdAt);
+            const milli = now.getTime() - created.getTime();
             return milli < (oneDay *7);
           })
         );
@@ -69,10 +72,9 @@ function SortingBar({ posts, filteredListCB }) {
     filteredListCB(filteredPosts)
   };
 
-  const searchChangedHandler = (e) => {
+  const searchChangedHandler = (e:any) => {
     setSearch(e.target.value)
-    console.log(e.target.value)
-    filteredListCB(filteredPosts.filter(post=>post.what.text.toLowerCase().includes(e.target.value.toLowerCase()) || post.user.name.toLowerCase().includes(e.target.value.toLowerCase())))
+    filteredListCB(filteredPosts.filter(post=>post.what.text.toLowerCase().includes(e.target.value.toLowerCase()) || post.user?.name.toLowerCase().includes(e.target.value.toLowerCase())))
 
   };
 

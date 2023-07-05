@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, {  useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Store } from "../Store";
 import { Helmet } from "react-helmet-async";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { Button, Form } from "react-bootstrap";
@@ -9,17 +9,14 @@ const days = ["ראשון", "שני", "שלישי", "רביעי", "חמישי", 
 
 export default function WhenPage() {
   const navigate = useNavigate();
-  const { state } = useContext(Store);
-
+ 
   const [startDate, setStartDate] = useState("00:00");
   const [endDate, setEndDate] = useState("00:00");
-  const [checkedDays, setCheckedDays] = useState([]);
+  const [checkedDays, setCheckedDays] = useState<any[]>([]);
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(startDate);
-    console.log(endDate);
-    console.log(checkedDays);
+   
     localStorage.setItem("whenSection", JSON.stringify({ startDate,
       endDate,
       checkedDays }));
@@ -27,18 +24,15 @@ export default function WhenPage() {
     navigate("/summary");
   };
 
-  const startTimeHandler = (e) => {
-    console.log(e.target.value);
+  const startTimeHandler = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setStartDate(e.target.value);
   };
 
-  const endTimeHandler = (e) => {
-    console.log(e.target.value);
+  const endTimeHandler = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setEndDate(e.target.value);
   };
 
-  const dayHandler = (e, day) => {
-    console.log(e.target.checked, day);
+  const dayHandler = (e: React.ChangeEvent<HTMLInputElement>, day: string) => {
     if (e.target.checked) {
       !checkedDays.includes(day) && setCheckedDays((prev) => [...prev, day]);
     } else {

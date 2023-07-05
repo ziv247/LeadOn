@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useContext, useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useContext, useEffect,  useState } from "react";
+import {  useParams } from "react-router-dom";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { getError } from "../utils";
@@ -22,22 +23,22 @@ import Pdf from "../components/Pdf";
 export default function PostPage() {
   const params = useParams();
   const { id: postId } = params;
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const { userInfo } = state;
 
   const { data, isLoading, error } = useGetPostDetailsQuery(postId!);
   const { mutateAsync: updatePost } = useUpdatePostMutation();
-  const [post, setPost] = useState(data ? data : ({} as Post));
+  const [post, setPost] = useState<Post>(data ? data : ({} as Post));
 
   useEffect(() => {
-    setPost(data);
+    setPost(data!);
   }, [data, useGetPostDetailsQuery]);
 
-  const checkedChangedHandler = async (e) => {
+  const checkedChangedHandler = async (e:any) => {
     const newPost = { ...post };
     newPost.isPending = !e.target.checked;
     setPost(newPost);
-    const updated = await updatePost(newPost);
+     await updatePost(newPost);
   };
 
   const whenString = () => {

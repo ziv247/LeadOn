@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import { User } from "./models/userModel";
 import { Product } from "./models/productModel";
-import { Post } from "./models/postModel";
 
 export const sampleProducts: Product[] = [
   {
@@ -68,17 +67,17 @@ export const sampleUsers: User[] = [
     isAdmin: false,
   },
 ];
-export const samplePosts: Post[] = [
-  {
-    text: "bla bla bla",
-    image: "../images/p1.jpg",
-    when: new Date(),
-    groups: "['grop1','grop2','grop3']",
-  },
-  {
-    text: "bli bli bli",
-    image: "../images/p2.jpg",
-    when: new Date(),
-    groups: "['grop4','grop5','grop6']",
-  },
-];
+// export const samplePosts: Post[] = [
+//   {
+//     text: "bla bla bla",
+//     image: "../images/p1.jpg",
+//     when: new Date(),
+//     groups: "['grop1','grop2','grop3']",
+//   },
+//   {
+//     text: "bli bli bli",
+//     image: "../images/p2.jpg",
+//     when: new Date(),
+//     groups: "['grop4','grop5','grop6']",
+//   },
+// ];

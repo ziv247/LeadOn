@@ -1,10 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Store } from "../Store";
-import { CartItem } from "../types/Cart";
-import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
-import { Button, Card, Carousel, Col, ListGroup, Row } from "react-bootstrap";
+import { Button, Card,  Col, ListGroup, Row } from "react-bootstrap";
 import MessageBox from "../components/MessageBox";
 import { useGetPostHistoryQuery } from "../hooks/postHooks";
 import LoadingBox from "../components/LoadingBox";
@@ -13,7 +12,7 @@ import PostContainer from "../components/PostContainer";
 
 export default function UserStartPage() {
   const navigate = useNavigate();
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const { userInfo } = state;
 
   useEffect(() => {
@@ -22,18 +21,7 @@ export default function UserStartPage() {
     }
   }, [userInfo, navigate]);
 
-  const { data: posts, isLoading, error } = useGetPostHistoryQuery();
-
-  const updateCartHandler = (item: CartItem, quantity: number) => {
-    if (item.countInStock < quantity) {
-      toast.warn("Sorry. Product is out of stock");
-      return;
-    }
-    dispatch({
-      type: "CART_ADD_ITEM",
-      payload: { ...item, quantity },
-    });
-  };
+  const { data: posts, isLoading } = useGetPostHistoryQuery();
 
   const checkoutHandler = () => {
     navigate("/signin?redirect=/what");
@@ -60,7 +48,7 @@ export default function UserStartPage() {
                   <Col key={post._id}>
                     <PostContainer
                       post={post}
-                      onClick={() => navigate(`/post/${post._id}`)} />
+                     />
                   </Col>
                 ))}
               </Row>

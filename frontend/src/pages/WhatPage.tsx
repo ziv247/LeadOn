@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Store } from "../Store";
@@ -11,7 +13,7 @@ export default function WhatPage() {
   const { state, dispatch } = useContext(Store);
   const {
     userInfo,
-    filesList
+
   } = state;
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function WhatPage() {
     }
   }, [userInfo, navigate]);
 
-  const [what, setWhat] = useState(
+  const [what] = useState(
     localStorage.getItem("whatSection")
       ? JSON.parse(localStorage.getItem("whatSection")!)
       : {}
@@ -34,8 +36,7 @@ export default function WhatPage() {
     setIsVideo(e.target.id == "inline-radio-2");
   };
 
-  const handleFileChange = (files) => {
-    console.log(JSON.stringify(files));
+  const handleFileChange = (files: any) => {
     setFiles(files);
   };
 
@@ -50,7 +51,6 @@ export default function WhatPage() {
       type: "SAVE_FILES",
       payload: files,
     });
-    // console.log(files);
 
     navigate("/where");
   };

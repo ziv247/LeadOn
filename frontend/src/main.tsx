@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import {
   createBrowserRouter,
@@ -50,20 +49,14 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <StoreProvider>
-      <PayPalScriptProvider
-        options={{
-          "client-id":
-            "AaSkbFEZa2okGSKhfD0VOa4Hulcwd-3z2_pv5-oVxdNW2H8Syt6_THVu_DMyKTItC8iUJvl969ETj9RW",
-        }}
-        deferLoading={true}
-      >
+      
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </HelmetProvider>
-      </PayPalScriptProvider>
+      
     </StoreProvider>
   </React.StrictMode>
 );

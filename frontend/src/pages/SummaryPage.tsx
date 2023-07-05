@@ -1,4 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import { Helmet } from "react-helmet-async";
@@ -6,17 +9,9 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import {
   Button,
   Card,
-  Col,
-  Image,
-  Dropdown,
-  DropdownButton,
-  Form,
   ListGroup,
-  Row,
   Carousel,
 } from "react-bootstrap";
-import FacebookLogin from "react-facebook-login";
-import axios from "axios";
 import {
   useCreatePostMutation,
   useUploadFilesMutation,
@@ -24,12 +19,12 @@ import {
 import { toast } from "react-toastify";
 import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
-import { What } from "../types/Post";
+import { Post } from "../types/Post";
 
 export default function SummaryPage() {
   const navigate = useNavigate();
-  const { state, dispatch } = useContext(Store);
-  const { userInfo, filesList } = state;
+  const { state } = useContext(Store);
+  const { filesList } = state;
 
   useEffect(() => {
     if (!filesList) {
@@ -37,18 +32,18 @@ export default function SummaryPage() {
     }
   }, [filesList, navigate]);
 
-  const [what, setWhat] = useState(
+  const [what] = useState(
     localStorage.getItem("whatSection")
       ? JSON.parse(localStorage.getItem("whatSection")!)
       : {}
   );
 
-  const [where, setWhere] = useState(
+  const [where] = useState(
     localStorage.getItem("whereSection")
       ? JSON.parse(localStorage.getItem("whereSection")!)
       : []
   );
-  const [when, setWhen] = useState(
+  const [when] = useState(
     localStorage.getItem("whenSection")
       ? JSON.parse(localStorage.getItem("whenSection")!)
       : {}
@@ -60,19 +55,20 @@ export default function SummaryPage() {
     }`;
   };
 
-  const { mutateAsync: createPost, isLoading } = useCreatePostMutation();
+  const { mutateAsync: createPost } = useCreatePostMutation();
 
   const placePostHandler = async () => {
     try {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const uploadedFiles = await useUploadFilesMutation(filesList);
       what.files = uploadedFiles;
-
-      const data = await createPost({
-        what,
+      let newPost:Post = {what,
         where,
-        when,
-      });
+        when
+      };
+     
+
+      const data = await createPost(newPost);
       // dispatch({ type: "CART_CLEAR" });
       localStorage.removeItem("whatSection");
       localStorage.removeItem("whereSection");
@@ -82,6 +78,14 @@ export default function SummaryPage() {
       toast.error(getError(error as ApiError));
     }
   };
+
+const getUrls = ()=>{
+  const arr = []
+  for (let i = 0; i < filesList.length; i++) {
+    arr.push(filesList[i])
+  }
+  return arr
+}
 
   return (
     <div>
@@ -98,7 +102,7 @@ export default function SummaryPage() {
             <video src={URL.createObjectURL(filesList[0])} controls />
           ) : (
             <Carousel>
-              {filesList?.map((src) => (
+              {getUrls().map((src) => (
                 <Carousel.Item>
                   <Card.Img variant="top" src={URL.createObjectURL(src)} />
                 </Carousel.Item>

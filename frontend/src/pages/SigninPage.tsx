@@ -9,7 +9,6 @@ import { Button, Container, Form } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 
-import axios from "axios";
 
 export default function SigninPage() {
   const navigate = useNavigate();

@@ -1,14 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Store } from "../Store";
-import { CartItem } from "../types/Cart";
-import { toast } from "react-toastify";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import {  useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Helmet } from "react-helmet-async";
-import { Button, Card, Carousel, Col, ListGroup, Row } from "react-bootstrap";
+import { Card, Col, ListGroup, Row } from "react-bootstrap";
 import MessageBox from "../components/MessageBox";
 import {
   useGetAllPostsQuery,
-  useGetPostHistoryQuery,
 } from "../hooks/postHooks";
 import LoadingBox from "../components/LoadingBox";
 import { Post } from "../types/Post";
@@ -18,8 +16,8 @@ import SortingBar from "../components/SortingBar";
 export default function AdminStartPage() {
   const navigate = useNavigate();
 
-  const { data, isLoading, error } = useGetAllPostsQuery();
-  const [posts, setPosts] = useState([]);
+  const { data, isLoading } = useGetAllPostsQuery();
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     if (data) {
@@ -27,8 +25,7 @@ export default function AdminStartPage() {
     }
   }, [data, isLoading]);
 
-  const checkoutHandler = (filteredArray) => {
-    console.log(filteredArray);
+  const checkoutHandler = (filteredArray:Post[]) => {
     setPosts(filteredArray);
   };
 
@@ -43,7 +40,7 @@ export default function AdminStartPage() {
       ) : (
         <Row>
           <Col md={10}>
-          <SortingBar posts={data} filteredListCB={checkoutHandler} />
+          <SortingBar posts={data!} filteredListCB={checkoutHandler} />
 
             {posts!.length === 0 ? (
               <MessageBox>לא נמצאו פוסטים</MessageBox>

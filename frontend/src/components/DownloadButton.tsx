@@ -1,19 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import jsPDF from "jspdf";
 import JSZip from "jszip";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import { Button } from "react-bootstrap";
-import Pdf from "./Pdf";
 import "../../src/arial-normal.js";
 import { Store } from "../Store.js";
 
-const DownloadButton = ({ post }) => {
-  const aTag = useRef();
-  const { state, dispatch } = useContext(Store);
+const DownloadButton = (props: { post: any }) => {
+  const { post } = props;
+  const aTag = useRef<HTMLAnchorElement>(null);
+  const { state, } = useContext(Store);
   const { userInfo } = state;
-  const [zipFile, setZipFile] = useState();
 
-  const onClickHandler = async (e) => {
-    const promises = post.what.files.map(async (url) => {
+  const onClickHandler = async () => {
+    const promises = post.what.files.map(async (url: RequestInfo | URL) => {
       const res = await fetch(url);
       const blob = await res.blob();
       return blob;
@@ -30,15 +30,15 @@ const DownloadButton = ({ post }) => {
     readme?.file("readme.txt", "Created with JSZip");
 
     const zipFile = await zip.generateAsync({ type: "blob" });
-    console.log(zipFile);
-    // pdfGenerate();
     downloadZip(zipFile);
   };
 
-  const downloadZip = (file) => {
+  const downloadZip = (file: Blob | MediaSource) => {
     const url = URL.createObjectURL(file);
-    aTag.current.href = url;
-    aTag.current.click();
+    if (aTag.current) {
+      aTag.current.href = url;
+      aTag.current?.click();
+    }
   };
 
   const pdfGenerate = async () => {
@@ -60,7 +60,7 @@ const DownloadButton = ({ post }) => {
     y += 15;
     doc.setFontSize(12);
 
-    post.where.map((grp) => {
+    post.where.map((grp: { name: string }) => {
       doc.text("  " + grp.name, 400, y, { align: "right" });
       y += 15;
     });
@@ -71,7 +71,7 @@ const DownloadButton = ({ post }) => {
     y += 15;
     doc.setFontSize(12);
 
-    post.when.checkedDays.map((day) => {
+    post.when.checkedDays.map((day: string) => {
       doc.text("  " + day, 400, y, { align: "right" });
       y += 15;
     });
@@ -85,7 +85,7 @@ const DownloadButton = ({ post }) => {
     return doc.output("blob");
   };
 
-  const getFileName = (idx) => {
+  const getFileName = (idx: number) => {
     return !post.what.isVideo ? `image${idx + 1}.jpg` : "video.mp4";
   };
 
@@ -95,7 +95,7 @@ const DownloadButton = ({ post }) => {
       <a
         ref={aTag}
         style={{ display: "none" }}
-        download={userInfo.name +"_"+new Date().toDateString()+".zip"}
+        download={userInfo.name + "_" + new Date().toDateString() + ".zip"}
       ></a>
     </div>
   );

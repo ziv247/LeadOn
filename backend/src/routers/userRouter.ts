@@ -1,4 +1,4 @@
-import { FacebookData } from "./../../../frontend/src/types/User";
+
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
 import express, { Request, Response } from "express";
@@ -30,14 +30,12 @@ userRouter.post(
 userRouter.post(
   "/updateFb",
   asyncHandler(async (req: Request, res: Response) => {
-    console.log(req.body.email, req.body.facebookData);
 
     const user = await UserModel.findOneAndUpdate(
       { email: req.body.email },
       { facebookData: req.body.facebookData }
     );
 
-    console.log(user);
     if (user) {
       res.json(user);
     } else {

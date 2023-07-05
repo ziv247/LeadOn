@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
-const Uploader = ({ isVideo, onUplodCallBack }) => {
+const Uploader = (props: { isVideo: any; onUplodCallBack: any }) => {
+  const { isVideo, onUplodCallBack } = props;
   return !isVideo ? (
     <ImageUploader callback={onUplodCallBack} />
   ) : (
@@ -10,16 +13,17 @@ const Uploader = ({ isVideo, onUplodCallBack }) => {
 };
 
 //________________ImageUploader__________________________________________
-const ImageUploader = ({ callback }) => {
+const ImageUploader = (props: { callback: any }) => {
+  const { callback } = props;
   const [selectedFile, setSelectedFile] = useState();
-  const [preview, setPreview] = useState("");
+  // const [preview, setPreview] = useState("");
   const [filesList, setFilesList] = useState([]);
-  const fileInput = useRef();
+  const fileInput = useRef<HTMLInputElement>(null);
 
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
     if (!selectedFile) {
-      setPreview("");
+      // setPreview("");
       return;
     }
     const func = async () => {
@@ -47,27 +51,21 @@ const ImageUploader = ({ callback }) => {
     if (e.target.files.length + filesList.length >= 5) {
       toast.error("5 images only");
     }
-    // const base64 = await convertToBase64(e.target.files[0]);
-    // console.log(base64);
-    // I've kept this example simple by using the first image instead of multiple
-    // setSelectedFile(e.target.files[0]);
+    
     setSelectedFile(e.target.files);
   };
 
-  const addImgClickedHandler = (e: any) => {
-    fileInput.current.click();
+  const addImgClickedHandler = () => {
+    if (fileInput.current) {
+      fileInput.current.click();
+    }
   };
 
-  function removeImgHandler(idx): void {
-    console.log(idx);
-    console.log(filesList);
+  function removeImgHandler(idx: number): void {
+   
     setFilesList((prev) => {
       const newArr = [...prev];
-      console.log(newArr);
-
-      newArr.splice(idx, 1)
-    console.log(newArr);
-
+      newArr.splice(idx, 1);
       return newArr;
     });
   }
@@ -108,19 +106,20 @@ const ImageUploader = ({ callback }) => {
 };
 
 //________________VideoUploader__________________________________________
-const VideoUploader = ({ callback }) => {
+const VideoUploader = (props: { callback: any }) => {
+  const { callback } = props;
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState("");
 
-  const fileInput = useRef();
+  const fileInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!selectedFile) {
-      setPreview(undefined);
+      setPreview("");
       return;
     }
 
-    const objectUrl = URL.createObjectURL(selectedFile);
+   
     setPreview(selectedFile);
     callback([selectedFile]);
 
@@ -128,7 +127,7 @@ const VideoUploader = ({ callback }) => {
     // return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
-  const onSelectFile = (e) => {
+  const onSelectFile = (e:any) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
       return;
@@ -137,8 +136,8 @@ const VideoUploader = ({ callback }) => {
     // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0]);
   };
-  const addImgClickedHandler = (e: any) => {
-    fileInput.current.click();
+  const addImgClickedHandler = () => {
+    fileInput.current?.click();
   };
 
   return (
@@ -155,7 +154,7 @@ const VideoUploader = ({ callback }) => {
       {preview ? (
         <video
           className="vid-uploader"
-          src={URL.createObjectURL(preview)}
+          src={preview}
           controls
           width={100}
         />
@@ -171,16 +170,16 @@ const VideoUploader = ({ callback }) => {
   );
 };
 
-const convertToBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
-  });
-};
+// const convertToBase64 = (file: Blob) => {
+//   return new Promise((resolve, reject) => {
+//     const fileReader = new FileReader();
+//     fileReader.readAsDataURL(file);
+//     fileReader.onload = () => {
+//       resolve(fileReader.result);
+//     };
+//     fileReader.onerror = (error) => {
+//       reject(error);
+//     };
+//   });
+// };
 export default Uploader;

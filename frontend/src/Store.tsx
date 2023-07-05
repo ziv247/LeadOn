@@ -6,36 +6,36 @@ import { FacebookData, UserInfo } from "./types/UserInfo";
 import { Post, What } from "./types/Post";
 
 type AppState = {
-  userInfo?: UserInfo;
+  userInfo: UserInfo;
   posts: Post[];
-  filesList: FileList;
+  filesList: File[];
 };
-
 const initialState: AppState = {
   userInfo: localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo")!)
     : null,
   posts: [],
-  filesList: undefined,
+  filesList: [],
 };
 
 type Action =
-  
   | { type: "USER_SIGNIN"; payload: UserInfo }
   | { type: "USER_FB_INFO"; payload: FacebookData }
   | { type: "USER_SIGNOUT" }
   | { type: "SAVE_WHAT_SECTION"; payload: What }
-  | { type: "SAVE_FILES"; payload: FileList };
+  | { type: "SAVE_FILES"; payload: File[] };
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    
     case "USER_SIGNIN":
       return { ...state, userInfo: action.payload };
-    
+
     case "USER_FB_INFO":
-      return { ...state, userInfo:{...state.userInfo,facebookData: action.payload} };
-    
+      return {
+        ...state,
+        userInfo: { ...state.userInfo, facebookData: action.payload },
+      };
+
     case "SAVE_FILES":
       return {
         ...state,

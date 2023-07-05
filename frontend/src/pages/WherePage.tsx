@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import { Helmet } from "react-helmet-async";
 import CheckoutSteps from "../components/CheckoutSteps";
-import { Button, Dropdown, DropdownButton, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import FacebookLogin from "react-facebook-login";
 import axios from "axios";
 import LoadingBox from "../components/LoadingBox";
@@ -21,7 +22,7 @@ export default function WherePage() {
   // const [paymentMethodName, setPaymentMethodName] = useState(
   //   paymentMethod || "PayPal"
   // );
-  const [userGroups, setGroups] = useState([]);
+  const [userGroups, setGroups] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const { mutateAsync: updateUserFb } = useUpdateFacebookMutation();
@@ -38,34 +39,34 @@ export default function WherePage() {
     navigate("/when");
   };
   const getCheckedGroups = () => {
-    return userGroups.filter((grp) => grp.isChecked);
+    return userGroups.filter((grp: { isChecked: boolean }) => grp.isChecked);
   };
 
-  const componentClicked = (data: any) => {
-    console.log("data:", data);
-  };
+  const componentClicked = (data: any) => {};
 
   const handleSearch = (e: any) => {
     setSearch(e.target.value);
   };
 
-  const onCheckedHandler = (e, group) => {
-    const prevGroups = userGroups.find((grp) => grp.id === group.id);
-    console.log("prevGroups");
-    console.log(prevGroups);
+  const onCheckedHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    group: { isChecked?: boolean; name?: string; id: any }
+  ) => {
+    const prevGroups = userGroups.find(
+      (grp: { id: string }) => grp.id === group.id
+    );
 
-    const newGroups = [...userGroups];
-    newGroups.map((grp:any) => {
+    const newGroups: any[] = [...userGroups];
+    newGroups.map((grp: any) => {
       if (grp.id === group.id) {
         grp.isChecked = e.target.checked;
       }
     });
 
-    console.log("newGroups");
     setGroups(newGroups);
   };
 
-  const loadMoreGroupsHandler = async (next) => {
+  const loadMoreGroupsHandler = async (next: string) => {
     const res = await axios.get(next);
 
     setGroups((prev) => [...prev, ...res.data.data]);
@@ -74,30 +75,25 @@ export default function WherePage() {
     } else {
       setLoading(false);
     }
-    console.log(res);
   };
 
   const responseFacebook = async (response: any) => {
     setLoading(true);
 
-    console.log(response);
     const groups = response.groups.data;
     const fbData = {
       fb_name: response.name,
       fb_image: response.picture.data.url,
     };
     dispatch({ type: "USER_FB_INFO", payload: fbData });
-    const newUserInfo:UserInfo= {...userInfo};
-    newUserInfo.facebookData = fbData
-    
-    const updated = await updateUserFb(newUserInfo);
+    const newUserInfo: UserInfo = { ...userInfo };
+    newUserInfo.facebookData = fbData;
+
+    await updateUserFb(newUserInfo);
 
     localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
 
-
-    console.log("newUserInfo");
-    console.log(newUserInfo);
-    groups.map((grp) => (grp.isChecked = false));
+    groups.map((grp: { isChecked: boolean }) => (grp.isChecked = false));
     setGroups(groups);
     if (response.groups.paging.next) {
       loadMoreGroupsHandler(response.groups.paging.next);

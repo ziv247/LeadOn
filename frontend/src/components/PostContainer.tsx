@@ -1,10 +1,17 @@
-import React from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, Carousel, Image } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-export default function PostContainer({ post }) {
-  console.log(post);
+export default function PostContainer(props: { post: any }) {
+  const { post } = props;
+  const navigate = useNavigate();
+
   return (
-    <Card className="mb-3" style={{ cursor: "pointer" }}>
+    <Card
+      className="mb-3"
+      style={{ cursor: "pointer" }}
+      onClick={() => navigate(`/post/${post._id}`)}
+    >
       <Card.Header className="d-flex align-items-center">
         <Image
           src={post.user?.facebookData?.fb_image}

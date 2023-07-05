@@ -1,6 +1,6 @@
-import { FacebookData } from "./../../frontend/src/types/User";
+
 import jwt from "jsonwebtoken";
-import { User } from "./models/userModel";
+import { FacebookData, User } from "./models/userModel";
 import { NextFunction, Request, Response } from "express";
 export const generateToken = (user: User) => {
   return jwt.sign(

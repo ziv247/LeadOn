@@ -4,7 +4,7 @@ import AdminStartPage from "./AdminStartPage";
 import UserStartPage from "./UserStartPage";
 
 export default function StartPage() {
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const { userInfo } = state;
 
   return userInfo?.isAdmin ? <AdminStartPage /> : <UserStartPage />;

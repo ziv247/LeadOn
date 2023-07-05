@@ -1,11 +1,8 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CartItem, ShippingAddress } from "../types/Cart";
 import apiClient from "../apiClient";
-import { Order } from "../types/Order";
-import { Post, What, When, Where } from "../types/Post";
+import { Post } from "../types/Post";
 
 export const useGetPostDetailsQuery = (id: string) => {
-  console.log(id);
   return useQuery({
     queryKey: ["posts", id],
     queryFn: async () => (await apiClient.get<Post>(`api/posts/${id}`)).data,
@@ -26,36 +23,14 @@ export const useUpdatePostMutation = () =>
         .data,
   });
 
-// export const useUploadFilesMutation = () =>
-//   useMutation({
-//     mutationFn: async (formData: FileList) =>
-//       (await apiClient.post<{ files: Array<any>; }>("api/upload/multiple", convetFileToForm(formData)))
-//         .data,
-//   });
 
-//   const convetFileToForm = files=>{
-//     const formData = new FormData();
-//   for (let i = 0; i < files.length; i++) {
-//     formData.append("files", files[i]);
-//   }
-//   console.log(formData)
-//   return formData
-//   }
-export const useUploadFilesMutation = (files) => {
+export const useUploadFilesMutation = (files:File[]) => {
   const formData = new FormData();
   for (let i = 0; i < files.length; i++) {
     formData.append("files", files[i]);
   }
 
-  // useMutation({
-  //   mutationFn: async (files: FormData) =>
-  //     (
-  //       await apiClient.post<{ files: Array<any> }>(
-  //         "api/upload/multiple",
-  //         files
-  //       )
-  //     ).data,
-  // });
+
 
   return fetch("http://localhost:4000/api/upload/multiple", {
     method: "POST",
@@ -68,16 +43,9 @@ export const useUploadFilesMutation = (files) => {
     })
     .then(function (data) {
       // `data` is the parsed version of the JSON returned from the above endpoint.
-      console.log(data); // { "userId": 1, "id": 1, "title": "...", "body": "..." }
       return data;
     });
-  // .then((res) => {
-  //     res.json().then((data) => {
-  //     console.log(data)
-  //   })})
-  //   .catch((err) => {
-  //     console.error(err.message);
-  //   });
+
 };
 
 export const useGetPostHistoryQuery = () =>
