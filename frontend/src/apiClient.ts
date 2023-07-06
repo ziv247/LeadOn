@@ -5,9 +5,19 @@ const apiClient = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
       ? "http://localhost:4000/"
-      : "https://leadon.onrender.com/",
+      : "/",
   headers: {
     "Content-Type": "application/json",
+  },
+});
+
+export const apiClientForm = axios.create({
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:4000/"
+      : "/",
+  headers: {
+    "Content-Type": "multipart/form-data; boundary=something",
   },
 });
 
