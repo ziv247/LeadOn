@@ -47,7 +47,7 @@ app.use("/api/upload", uploadRouter);
 // app.use("/api/files", express.static("files"));
 app.use(
   "/files",
-  express.static(path.join(__dirname, "../../../var/lib/data"))
+  express.static(path.join(__dirname, "../../var/lib/data"))
 );
 // app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.static(__dirname));
