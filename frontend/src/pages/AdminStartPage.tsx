@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Helmet } from "react-helmet-async";
 import { Card, Col, ListGroup, Row } from "react-bootstrap";
 import MessageBox from "../components/MessageBox";
-import {
-  useGetAllPostsQuery,
-} from "../hooks/postHooks";
+import { useGetAllPostsQuery } from "../hooks/postHooks";
 import LoadingBox from "../components/LoadingBox";
 import { Post } from "../types/Post";
 import PostContainer from "../components/PostContainer";
@@ -25,7 +23,7 @@ export default function AdminStartPage() {
     }
   }, [data, isLoading]);
 
-  const checkoutHandler = (filteredArray:Post[]) => {
+  const checkoutHandler = (filteredArray: Post[]) => {
     setPosts(filteredArray);
   };
 
@@ -40,13 +38,12 @@ export default function AdminStartPage() {
       ) : (
         <Row>
           <Col md={10}>
-          <SortingBar posts={data!} filteredListCB={checkoutHandler} />
+            <SortingBar posts={data!} filteredListCB={checkoutHandler} />
 
             {posts!.length === 0 ? (
               <MessageBox>לא נמצאו פוסטים</MessageBox>
             ) : (
               <Row>
-                
                 {posts!.map((post: Post) => (
                   <Col
                     md={3}

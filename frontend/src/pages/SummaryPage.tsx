@@ -6,12 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import { Helmet } from "react-helmet-async";
 import CheckoutSteps from "../components/CheckoutSteps";
-import {
-  Button,
-  Card,
-  ListGroup,
-  Carousel,
-} from "react-bootstrap";
+import { Button, Card, ListGroup, Carousel } from "react-bootstrap";
 import {
   useCreatePostMutation,
   useUploadFilesMutation,
@@ -62,11 +57,7 @@ export default function SummaryPage() {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const uploadedFiles = await useUploadFilesMutation(filesList);
       what.files = uploadedFiles;
-      let newPost:Post = {what,
-        where,
-        when
-      };
-     
+      let newPost: Post = { what, where, when };
 
       const data = await createPost(newPost);
       // dispatch({ type: "CART_CLEAR" });
@@ -79,13 +70,13 @@ export default function SummaryPage() {
     }
   };
 
-const getUrls = ()=>{
-  const arr = []
-  for (let i = 0; i < filesList.length; i++) {
-    arr.push(filesList[i])
-  }
-  return arr
-}
+  const getUrls = () => {
+    const arr = [];
+    for (let i = 0; i < filesList.length; i++) {
+      arr.push(filesList[i]);
+    }
+    return arr;
+  };
 
   return (
     <div>
@@ -98,7 +89,7 @@ const getUrls = ()=>{
       <div className="container ">
         <h1 className="my-3">סיכום</h1>
         <Card style={{ width: "25rem", margin: "auto" }}>
-          {what.isVideo ? (
+          {what.isWithMedia && what.isVideo ? (
             <video src={URL.createObjectURL(filesList[0])} controls />
           ) : (
             <Carousel>

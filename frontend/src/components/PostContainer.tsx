@@ -25,7 +25,9 @@ export default function PostContainer(props: { post: any }) {
       <Card.Body>
         <Card.Text className="ellipsis">{post.what.text}</Card.Text>
       </Card.Body>
-      {post.what.isVideo ? (
+      {
+      post.isWithMedia&&
+      post.what.isVideo ? (
         <video
           style={{
             borderTopLeftRadius: "5px",
@@ -47,7 +49,9 @@ export default function PostContainer(props: { post: any }) {
             </Carousel.Item>
           ))}
         </Carousel>
-      )}
+      )
+      
+      }
       <Card.Footer
         style={{
           backgroundColor: post.isPending ? "lightcoral" : "lightgreen",

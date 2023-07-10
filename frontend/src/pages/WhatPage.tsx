@@ -11,10 +11,7 @@ import Uploader from "../components/Uploader";
 export default function WhatPage() {
   const navigate = useNavigate();
   const { state, dispatch } = useContext(Store);
-  const {
-    userInfo,
-
-  } = state;
+  const { userInfo } = state;
 
   useEffect(() => {
     if (!userInfo) {
@@ -31,21 +28,36 @@ export default function WhatPage() {
   const [text, setText] = useState(what.text ? what.text : "");
   const [files, setFiles] = useState(what.files ? what.files : []);
   const [isVideo, setIsVideo] = useState(what.isVideo ? what.isVideo : false);
+  const [isWithMedia, setIsWithMedia] = useState(
+    what.isWithMedia ? what.isWithMedia : true
+  );
 
   const radioChangeHandler = (e: any) => {
+    console.log(files);
+
+    if (e.target.id == "inline-radio-3") {
+      setIsWithMedia(!e.target.checked);
+      setIsVideo(false);
+
+      return;
+    }
+    setIsWithMedia(true);
     setIsVideo(e.target.id == "inline-radio-2");
   };
 
   const handleFileChange = (files: any) => {
+    console.log("handleFileChange");
+    console.log(files);
+
     setFiles(files);
   };
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
-
+    console.log(files);
     localStorage.setItem(
       "whatSection",
-      JSON.stringify({ text, files, isVideo })
+      JSON.stringify({ text, files, isVideo, isWithMedia })
     );
     dispatch({
       type: "SAVE_FILES",
@@ -79,7 +91,7 @@ export default function WhatPage() {
           </Form.Group>
           <div className="mb-3">
             <Form.Check
-              checked={!isVideo}
+              checked={isWithMedia && !isVideo}
               inline
               label="הוסף תמונות"
               name="group1"
@@ -88,7 +100,7 @@ export default function WhatPage() {
               onChange={radioChangeHandler}
             />
             <Form.Check
-              checked={isVideo}
+              checked={isWithMedia && isVideo}
               inline
               label="הוסף סרטון"
               name="group1"
@@ -96,9 +108,20 @@ export default function WhatPage() {
               id={`inline-radio-2`}
               onChange={radioChangeHandler}
             />
+            <Form.Check
+              checked={!isWithMedia}
+              inline
+              label="ללא מדיה"
+              name="group1"
+              type="radio"
+              id={`inline-radio-3`}
+              onChange={radioChangeHandler}
+            />
           </div>
 
-          <Uploader isVideo={isVideo} onUplodCallBack={handleFileChange} />
+          {isWithMedia && (
+            <Uploader isVideo={isVideo} onUplodCallBack={handleFileChange} />
+          )}
 
           <div className="mb-3">
             <Button variant="primary" type="submit">

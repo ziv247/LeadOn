@@ -1,19 +1,29 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import { Helmet } from "react-helmet-async";
-import { Button, Card,  Col, ListGroup, Row } from "react-bootstrap";
+import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import MessageBox from "../components/MessageBox";
 import { useGetPostHistoryQuery } from "../hooks/postHooks";
 import LoadingBox from "../components/LoadingBox";
 import { Post } from "../types/Post";
 import PostContainer from "../components/PostContainer";
+import SortingBar from "../components/SortingBar";
 
 export default function UserStartPage() {
   const navigate = useNavigate();
   const { state } = useContext(Store);
   const { userInfo } = state;
+
+  const { data, isLoading } = useGetPostHistoryQuery();
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    if (data) {
+      setPosts(data);
+    }
+  }, [data, isLoading]);
 
   useEffect(() => {
     if (userInfo?.isAdmin) {
@@ -21,9 +31,11 @@ export default function UserStartPage() {
     }
   }, [userInfo, navigate]);
 
-  const { data: posts, isLoading } = useGetPostHistoryQuery();
+  const checkoutHandler = (filteredArray: Post[]) => {
+    setPosts(filteredArray);
+  };
 
-  const checkoutHandler = () => {
+  const addPostHandler = () => {
     navigate("/signin?redirect=/what");
   };
 
@@ -38,6 +50,7 @@ export default function UserStartPage() {
       ) : (
         <Row>
           <Col md={10}>
+            <SortingBar posts={data!} filteredListCB={checkoutHandler} />
             {posts!.length === 0 ? (
               <MessageBox>
                 אין פוסטים להוספה . <Link to="/what">לחץ כאן</Link>
@@ -45,10 +58,12 @@ export default function UserStartPage() {
             ) : (
               <Row>
                 {posts!.map((post: Post) => (
-                  <Col key={post._id}>
-                    <PostContainer
-                      post={post}
-                     />
+                  <Col
+                    key={post._id}
+                    md={3}
+                    onClick={() => navigate(`/post/${post._id}`)}
+                  >
+                    <PostContainer post={post} />
                   </Col>
                 ))}
               </Row>
@@ -66,7 +81,7 @@ export default function UserStartPage() {
                       <Button
                         type="button"
                         variant="primary"
-                        onClick={checkoutHandler}
+                        onClick={addPostHandler}
                         // disabled={cartItems.length === 0}
                       >
                         הוסף פוסט חדש

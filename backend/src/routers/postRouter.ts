@@ -8,7 +8,9 @@ postRouter.get(
   "/mine",
   isAuth,
   asyncHandler(async (req, res) => {
-    const posts = await PostModel.find({ user: req.user._id });
+    const posts = await PostModel.find({ user: req.user._id })
+      .populate("user")
+      .exec();
     res.json(posts);
   })
 );
@@ -16,7 +18,7 @@ postRouter.get(
 postRouter.get(
   "/",
   asyncHandler(async (req, res) => {
-    const products = await PostModel.find().populate('user').exec();
+    const products = await PostModel.find().populate("user").exec();
     res.json(products);
   })
 );
@@ -41,7 +43,7 @@ postRouter.post(
       what: req.body.what,
       where: req.body.where,
       when: req.body.when,
-      user:  req.user._id,  
+      user: req.user._id,
       isPending: true,
     });
     res.status(201).json({ message: "Post Created", post: createdPost });

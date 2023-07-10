@@ -14,6 +14,7 @@ export class Post {
     text: string;
     files: string[];
     isVideo: boolean;
+    isWithMedia: boolean;
   };
 
   @prop({ required: true })

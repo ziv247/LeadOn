@@ -60,7 +60,9 @@ export default function PostPage() {
       </Helmet>
       <h1 className="my-3 text-center">Post {postId}</h1>
       <Card style={{ width: "25rem", margin: "auto" }}>
-        {post.what.isVideo ? (
+        {
+        post.what.isWithMedia &&
+        post.what.isVideo ? (
           <video src={post.what.files[0]} controls />
         ) : (
           <Carousel>
@@ -70,7 +72,9 @@ export default function PostPage() {
               </Carousel.Item>
             ))}
           </Carousel>
-        )}
+        )
+        
+        }
 
         <Card.Body>
           {userInfo?.isAdmin ? (

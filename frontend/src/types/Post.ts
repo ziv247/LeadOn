@@ -14,6 +14,7 @@ export type What = {
   text: string;
   files: string[];
   isVideo: boolean;
+  isWithMedia: boolean;
 };
 
 export type Where = [{ name: string; id: string }];
