@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, Carousel, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { Post } from "../types/Post";
 
-export default function PostContainer(props: { post: any }) {
+export default function PostContainer(props: { post: Post }) {
   const { post } = props;
   const navigate = useNavigate();
 
@@ -25,33 +26,37 @@ export default function PostContainer(props: { post: any }) {
       <Card.Body>
         <Card.Text className="ellipsis">{post.what.text}</Card.Text>
       </Card.Body>
-      {
-      post.isWithMedia&&
-      post.what.isVideo ? (
-        <video
-          style={{
-            borderTopLeftRadius: "5px",
-            borderTopRightRadius: "5px",
-            height: "155px",
-          }}
-          src={post.what.files[0]}
-          controls
-        />
+      {post.what.isWithMedia ? (
+        post.what.isVideo ? (
+          <video
+            style={{
+              borderTopLeftRadius: "5px",
+              borderTopRightRadius: "5px",
+              height: "155px",
+            }}
+            src={post.what.files[0]}
+            controls
+          />
+        ) : (
+          <Carousel>
+            {post.what.files.map((src: string, idx: number) => (
+              <Carousel.Item key={idx}>
+                <Card.Img
+                  variant="bottom"
+                  src={src}
+                  style={{ height: "155px" }}
+                />
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        )
       ) : (
-        <Carousel>
-          {post.what.files.map((src: string, idx: number) => (
-            <Carousel.Item key={idx}>
-              <Card.Img
-                variant="bottom"
-                src={src}
-                style={{ height: "155px" }}
-              />
-            </Carousel.Item>
-          ))}
-        </Carousel>
-      )
-      
-      }
+        <Card.Img
+          variant="bottom"
+          src="../images/noMediaImage.png"
+          style={{ height: "155px" }}
+        />
+      )}
       <Card.Footer
         style={{
           backgroundColor: post.isPending ? "lightcoral" : "lightgreen",

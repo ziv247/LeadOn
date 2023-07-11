@@ -89,16 +89,20 @@ export default function SummaryPage() {
       <div className="container ">
         <h1 className="my-3">סיכום</h1>
         <Card style={{ width: "25rem", margin: "auto" }}>
-          {what.isWithMedia && what.isVideo ? (
-            <video src={URL.createObjectURL(filesList[0])} controls />
+          {what.isWithMedia ? (
+            what.isVideo ? (
+              <video src={URL.createObjectURL(filesList[0])} controls />
+            ) : (
+              <Carousel>
+                {getUrls().map((src) => (
+                  <Carousel.Item>
+                    <Card.Img variant="top" src={URL.createObjectURL(src)} />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+            )
           ) : (
-            <Carousel>
-              {getUrls().map((src) => (
-                <Carousel.Item>
-                  <Card.Img variant="top" src={URL.createObjectURL(src)} />
-                </Carousel.Item>
-              ))}
-            </Carousel>
+            <Card.Img variant="top" src="../images/noMediaImage.png" />
           )}
 
           <Card.Body>

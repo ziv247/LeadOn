@@ -81,16 +81,23 @@ export default function PostPage() {
       <Row>
         <Col>
           <Card style={{ width: "25rem", margin: "auto" }}>
-            {post.what.isWithMedia && post.what.isVideo ? (
-              <video src={post.what.files[0]} controls />
+            {post.what.isWithMedia ? (
+              post.what.isVideo ? (
+                <video src={post.what.files[0]} controls />
+              ) : (
+                <Carousel>
+                  {post.what.files.map((src) => (
+                    <Carousel.Item>
+                      <Card.Img variant="top" src={src} />
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
+              )
             ) : (
-              <Carousel>
-                {post.what.files.map((src) => (
-                  <Carousel.Item>
-                    <Card.Img variant="top" src={src} />
-                  </Carousel.Item>
-                ))}
-              </Carousel>
+              <Card.Img
+                variant="top"
+                src="../images/noMediaImage.png"
+              />
             )}
 
             <Card.Body>
