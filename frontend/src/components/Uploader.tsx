@@ -51,7 +51,7 @@ const ImageUploader = (props: { callback: any }) => {
     if (e.target.files.length + filesList.length >= 5) {
       toast.error("5 images only");
     }
-    
+
     setSelectedFile(e.target.files);
   };
 
@@ -62,7 +62,6 @@ const ImageUploader = (props: { callback: any }) => {
   };
 
   function removeImgHandler(idx: number): void {
-   
     setFilesList((prev) => {
       const newArr = [...prev];
       newArr.splice(idx, 1);
@@ -119,15 +118,14 @@ const VideoUploader = (props: { callback: any }) => {
       return;
     }
 
-   
-    setPreview(selectedFile);
+    setPreview(URL.createObjectURL(selectedFile));
     callback([selectedFile]);
 
     // free memory when ever this component is unmounted
     // return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
-  const onSelectFile = (e:any) => {
+  const onSelectFile = (e: any) => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
       return;
@@ -152,12 +150,7 @@ const VideoUploader = (props: { callback: any }) => {
       />
 
       {preview ? (
-        <video
-          className="vid-uploader"
-          src={preview}
-          controls
-          width={100}
-        />
+        <video className="vid-uploader" src={preview} controls width={100} />
       ) : (
         <div
           className="vid-uploader add-img-card"

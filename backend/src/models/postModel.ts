@@ -24,6 +24,12 @@ export class Post {
   public isPending!: boolean;
 
   @prop({ required: true })
+  public isActive!: boolean;
+
+  @prop({ required: true })
+  public notes!: string[];
+
+  @prop({ required: true })
   public when!: {
     startDate: string;
     endDate: string;

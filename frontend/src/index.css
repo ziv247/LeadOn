@@ -150,6 +150,16 @@ a.header-link:hover,
   display: flex;
 }
 
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.list-group-item:hover > .inner {
+  opacity: 1;
+}
+
 .trash-container {
   background: white;
   display: none;

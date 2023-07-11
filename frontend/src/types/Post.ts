@@ -8,6 +8,8 @@ export type Post = {
   when: When;
   user?: User;
   isPending?: boolean;
+  isActive?: boolean;
+  notes?: string[];
 };
 
 export type What = {

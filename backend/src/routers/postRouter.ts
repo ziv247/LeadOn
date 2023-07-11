@@ -45,6 +45,8 @@ postRouter.post(
       when: req.body.when,
       user: req.user._id,
       isPending: true,
+      isActive: false,
+      notes: [],
     });
     res.status(201).json({ message: "Post Created", post: createdPost });
   })
@@ -55,7 +57,7 @@ postRouter.post(
   asyncHandler(async (req, res) => {
     const post = await PostModel.findOneAndUpdate(
       { _id: req.body._id },
-      { isPending: req.body.isPending }
+      req.body
     );
     if (post) {
       res.json(post);
