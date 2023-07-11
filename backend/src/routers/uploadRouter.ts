@@ -7,7 +7,7 @@ export const uploadRouter = express.Router();
 const fileStorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {
     // cb(null, './files');
-    cb(null, path.join(__dirname, '../../../var/lib/data'));
+    cb(null, path.join(__dirname, '../../../../../../../var/lib/data'));
     // cb(null, path.join(__dirname, '../../public/files'));
   },
   filename: (req, file, cb) => {
