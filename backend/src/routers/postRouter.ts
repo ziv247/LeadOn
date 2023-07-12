@@ -1,8 +1,11 @@
 import express from "express";
 import asyncHandler from "express-async-handler";
 import { PostModel } from "../models/postModel";
-export const postRouter = express.Router();
 import { isAuth } from "../utils";
+import fs from "fs";
+import path from "path";
+
+export const postRouter = express.Router();
 
 postRouter.get(
   "/mine",
@@ -61,6 +64,38 @@ postRouter.post(
     );
     if (post) {
       res.json(post);
+    } else {
+      res.status(404).json({ message: "Post Not Found" });
+    }
+  })
+);
+
+postRouter.post(
+  "/delete",
+  asyncHandler(async (req, res) => {
+    const post = await PostModel.findOneAndDelete({ _id: req.body._id });
+
+    if (post) {
+      post.what.files.map((file) => {
+        const fileName = file.split("http://leadon.onrender.com/files/")[1];
+        // const fileName = file.split("http://localhost:4000/files/")[1];
+        const oldPath = path.join(
+          __dirname,
+          `../../../../../../../var/lib/data/` + fileName
+        );
+
+        if (fs.existsSync(oldPath)) {
+          fs.unlink(oldPath, (err) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
+            res.status(200).send(post);
+          });
+        }
+      });
+
+      // res.json(post);
     } else {
       res.status(404).json({ message: "Post Not Found" });
     }
