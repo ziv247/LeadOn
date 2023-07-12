@@ -20,6 +20,7 @@ import { Post } from "../types/Post";
 import DownloadButton from "../components/DownloadButton";
 import Pdf from "../components/Pdf";
 import NoteModal from "../components/NoteModal";
+import DeletePostButton from "../components/DeletePostButton";
 
 export default function PostPage() {
   const params = useParams();
@@ -38,6 +39,13 @@ export default function PostPage() {
   const checkedChangedHandler = async (e: any) => {
     const newPost = { ...post };
     newPost.isPending = !e.target.checked;
+    setPost(newPost);
+    await updatePost(newPost);
+  };
+
+  const checkedActiveChangedHandler = async (e: any) => {
+    const newPost = { ...post };
+    newPost.isActive = e.target.checked;
     setPost(newPost);
     await updatePost(newPost);
   };
@@ -94,16 +102,17 @@ export default function PostPage() {
                 </Carousel>
               )
             ) : (
-              <Card.Img
-                variant="top"
-                src="../images/noMediaImage.png"
-              />
+              <Card.Img variant="top" src="../images/noMediaImage.png" />
             )}
 
             <Card.Body>
               {userInfo?.isAdmin ? (
+                // ____ADMIN_________________________
+
                 <Pdf post={post} />
               ) : (
+                // ____USER_________________________
+
                 <>
                   <Card.Title>{post.what.text}</Card.Title>
                   <ListGroup variant="flush">
@@ -117,39 +126,62 @@ export default function PostPage() {
                 </>
               )}
             </Card.Body>
+
             <Card.Footer
               style={{
-                backgroundColor: post.isPending ? "lightcoral" : "lightgreen",
+                backgroundColor: post.isPending ? "lightcoral" :  post.isActive ? "lightgreen" : "white",
               }}
             >
               {userInfo?.isAdmin ? (
+                // ____ADMIN_________________________
                 <div>
-                  <div className="d-flex justify-content-around">
-                    <span>{post.isPending ? "ממתין לאישור" : "אושר "}</span>
-                    <Form.Check
-                      type="switch"
-                      id="custom-switch"
-                      // label={}
-                      checked={!post.isPending}
-                      onChange={checkedChangedHandler}
-                    />
+                  {post.isPending ? (
+                    <div>
+                      <div className="d-flex justify-content-around">
+                        <h6>ממתין לאישור</h6>
+                        <Form.Check
+                          type="switch"
+                          id="custom-switch"
+                          // label={}
+                          checked={!post.isPending}
+                          onChange={checkedChangedHandler}
+                        />
+                        <NoteModal callback={onAddNoteHandler} />
+                      </div>
 
-                    <NoteModal callback={onAddNoteHandler} />
-                  </div>
-                  <ListGroup className="m-1">
-                    {post.notes?.map((note, idx) => (
-                      <ListGroup.Item key={idx}>
-                        {note}
-                        <i
-                          className="fas fa-trash inner"
-                          onClick={() => removeNoteHandler(note)}
-                        ></i>
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
+                      <ListGroup className="m-1">
+                        {post.notes?.map((note, idx) => (
+                          <ListGroup.Item key={idx}>
+                            {note}
+                            <i
+                              className="fas fa-trash inner"
+                              onClick={() => removeNoteHandler(note)}
+                            ></i>
+                          </ListGroup.Item>
+                        ))}
+                      </ListGroup>
+                    </div>
+                  ) : (
+                    <div className="d-flex justify-content-around">
+                      <h6>{post.isActive ? "פעיל" : "לא פעיל"}</h6>
+                      <Form.Check
+                        type="switch"
+                        id="custom-switch"
+                        checked={post.isActive}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={checkedActiveChangedHandler}
+                      />
+                    </div>
+                  )}
+                  <div className="d-flex justify-content-around mt-2">
                   <DownloadButton post={post} />
+                  <DeletePostButton post={post}/>
+                  </div>
+                  
                 </div>
-              ) : post.isPending ? (
+              ) : // ____USER_________________________
+
+              post.isPending ? (
                 <div>
                   <h5>ממתין לאישור</h5>
                   {post.notes && post.notes.length > 0 && (
@@ -164,7 +196,16 @@ export default function PostPage() {
                   )}
                 </div>
               ) : (
-                <h5>אושר</h5>
+                <div className="d-flex justify-content-around">
+                      <h6>{post.isActive ? "פעיל" : "לא פעיל"}</h6>
+                      <Form.Check
+                        type="switch"
+                        id="custom-switch"
+                        checked={post.isActive}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={checkedActiveChangedHandler}
+                      />
+                    </div>
               )}
             </Card.Footer>
           </Card>
