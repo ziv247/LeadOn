@@ -52,7 +52,8 @@ export default function SummaryPage() {
 
   const { mutateAsync: createPost } = useCreatePostMutation();
 
-  const placePostHandler = async () => {
+  const placePostHandler = async (e: any) => {
+    e.target.disabled = true;
     try {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const uploadedFiles = await useUploadFilesMutation(filesList);
