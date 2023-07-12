@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Card, Carousel, Form, Image } from "react-bootstrap";
+import { Card, Carousel, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Post } from "../types/Post";
-import { ChangeEvent } from "react";
 
 export default function PostContainer(props: { post: Post }) {
   const { post } = props;
@@ -60,18 +59,22 @@ export default function PostContainer(props: { post: Post }) {
       )}
       <Card.Footer
         style={{
-          backgroundColor: post.isPending ? "lightcoral" : post.isActive ? "lightgreen" : "white",
+          backgroundColor: post.isPending
+            ? "lightcoral"
+            : post.isActive
+            ? "lightgreen"
+            : "white",
         }}
       >
         {post.isPending ? (
           <div className="d-flex justify-content-between">
             <h6>ממתין לאישור</h6>
-            {post.isPending && post.notes!.length >0 && <small>מנהל רשם הערות.</small>}
-            
+            {post.isPending && post.notes!.length > 0 && (
+              <small>מנהל רשם הערות.</small>
+            )}
           </div>
         ) : (
           <div className="d-flex justify-content-between">
-            
             <h6>{post.isActive ? "פעיל" : "לא פעיל"}</h6>
           </div>
         )}
