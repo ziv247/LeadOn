@@ -1,11 +1,12 @@
 import { Button } from "react-bootstrap";
 import { Post } from "../types/Post";
 
-const DeletePostButton = (props: { post: Post }) => {
-  const { post } = props;
+const DeletePostButton = (props: { post: Post,onDeleteClicked:any }) => {
+  const { onDeleteClicked } = props;
 
-  const onClickHandler = async () => {
-    alert("נמחק! סתם סתם,אוטוטו הכפתור יעבוד:) "+post._id);
+  const onClickHandler = async (e: any) => {
+    e.target.disable = true;
+    onDeleteClicked()
   };
 
   return (

@@ -27,6 +27,17 @@ export const useUpdatePostMutation = () =>
       ).data,
   });
 
+export const useDeletePostMutation = () =>
+  useMutation({
+    mutationFn: async (post: Post) =>
+      (
+        await apiClient.post<{ message: string; post: Post }>(
+          "api/posts/delete",
+          post
+        )
+      ).data,
+  });
+
 export const useUploadFilesMutation = async (files: File[]) => {
   const formData = new FormData();
   for (let i = 0; i < files.length; i++) {

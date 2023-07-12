@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { getError } from "../utils";
@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet-async";
 import { Form, Card, Carousel, ListGroup, Row, Col } from "react-bootstrap";
 
 import {
+  useDeletePostMutation,
   useGetPostDetailsQuery,
   useUpdatePostMutation,
 } from "../hooks/postHooks";
@@ -21,6 +22,7 @@ import DownloadButton from "../components/DownloadButton";
 import Pdf from "../components/Pdf";
 import NoteModal from "../components/NoteModal";
 import DeletePostButton from "../components/DeletePostButton";
+import { toast } from "react-toastify";
 
 export default function PostPage() {
   const params = useParams();
@@ -30,6 +32,10 @@ export default function PostPage() {
 
   const { data, isLoading, error } = useGetPostDetailsQuery(postId!);
   const { mutateAsync: updatePost } = useUpdatePostMutation();
+  const { mutateAsync: deletePost } = useDeletePostMutation();
+  const navigate = useNavigate();
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+
   const [post, setPost] = useState<Post>(data ? data : ({} as Post));
 
   useEffect(() => {
@@ -48,6 +54,15 @@ export default function PostPage() {
     newPost.isActive = e.target.checked;
     setPost(newPost);
     await updatePost(newPost);
+  };
+
+  const onDeletedHandler = async () => {
+    setIsDeleteLoading(true);
+    await deletePost(post);
+    toast.success("הפוסט נמחק");
+    setIsDeleteLoading(false);
+
+    navigate("/");
   };
 
   const onAddNoteHandler = async (text: string) => {
@@ -74,7 +89,7 @@ export default function PostPage() {
     await updatePost(newPost);
   };
 
-  return isLoading ? (
+  return isLoading || isDeleteLoading ? (
     <LoadingBox />
   ) : error ? (
     <MessageBox variant="danger">{getError(error as ApiError)}</MessageBox>
@@ -129,7 +144,11 @@ export default function PostPage() {
 
             <Card.Footer
               style={{
-                backgroundColor: post.isPending ? "lightcoral" :  post.isActive ? "lightgreen" : "white",
+                backgroundColor: post.isPending
+                  ? "lightcoral"
+                  : post.isActive
+                  ? "lightgreen"
+                  : "white",
               }}
             >
               {userInfo?.isAdmin ? (
@@ -174,10 +193,12 @@ export default function PostPage() {
                     </div>
                   )}
                   <div className="d-flex justify-content-around mt-2">
-                  <DownloadButton post={post} />
-                  <DeletePostButton post={post}/>
+                    <DownloadButton post={post} />
+                    <DeletePostButton
+                      post={post}
+                      onDeleteClicked={onDeletedHandler}
+                    />
                   </div>
-                  
                 </div>
               ) : // ____USER_________________________
 
@@ -197,15 +218,15 @@ export default function PostPage() {
                 </div>
               ) : (
                 <div className="d-flex justify-content-around">
-                      <h6>{post.isActive ? "פעיל" : "לא פעיל"}</h6>
-                      <Form.Check
-                        type="switch"
-                        id="custom-switch"
-                        checked={post.isActive}
-                        onClick={(e) => e.stopPropagation()}
-                        onChange={checkedActiveChangedHandler}
-                      />
-                    </div>
+                  <h6>{post.isActive ? "פעיל" : "לא פעיל"}</h6>
+                  <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    checked={post.isActive}
+                    onClick={(e) => e.stopPropagation()}
+                    onChange={checkedActiveChangedHandler}
+                  />
+                </div>
               )}
             </Card.Footer>
           </Card>
