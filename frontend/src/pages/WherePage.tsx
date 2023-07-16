@@ -11,108 +11,108 @@ import LoadingBox from "../components/LoadingBox";
 import { useUpdateFacebookMutation } from "../hooks/userHooks";
 import { UserInfo } from "../types/UserInfo";
 
-const groups =  [
-  {
-      "name": "\u05d3\u05e8\u05d5\u05e9\u05d9\u05dd - \u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 - \u05de\u05e4\u05ea\u05d7\u05d9\u05dd",
-      "id": "126170691048605"
-  },
-  {
-      "name": "\u05d3\u05e8\u05d5\u05e9\u05d9\u05dd - \u05de\u05e9\u05e8\u05d5\u05ea \u05d2\u05d9\u05d9\u05de\u05d9\u05e0\u05d2",
-      "id": "216458105817281"
-  },
-  {
-      "name": "\u05de\u05d6\u05d9\u05d6\u05d9 \u05d4\u05d8\u05e8\u05e0\u05e1\u05e4\u05d5\u05e8\u05de\u05d9\u05dd - \u05d4\u05e7\u05d1\u05d5\u05e6\u05d4",
-      "id": "836631284164229"
-  },
-  {
-      "name": "\u05d3\u05e8\u05d5\u05e9\u05d9\u05dd - \u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7",
-      "id": "1167283816632326"
-  },
-  {
-      "name": "\u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 \u05d1\u05d9\u05df \u05d7\u05d1\u05e8\u05d9\u05dd, \u05dc\u05e4\u05e0\u05d9 \u05e9\u05de\u05ea\u05e4\u05e8\u05e1\u05de\u05d5\u05ea \u05d1\u05d7\u05d1\u05e8\u05d5\u05ea \u05db\"\u05d0",
-      "id": "172699927676"
-  },
-  {
-      "name": "\u05de\u05e9\u05e8\u05d5\u05ea \u05d1\u05d4\u05d9\u05d9\u05d8\u05e7 \u05d5\u05d1\u05e1\u05d8\u05d0\u05e8\u05d8 \u05d0\u05e4\u05d9\u05dd- \u05e2\u05dd \u05d0\u05d5 \u05d1\u05dc\u05d9 \u05e0\u05e1\u05d9\u05d5\u05df",
-      "id": "609641652802760"
-  },
-  {
-      "name": "\u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 \u05d5\u05e9\u05d9\u05d5\u05d5\u05e7 \u05dc\u05dc\u05d0 \u05e0\u05e1\u05d9\u05d5\u05df",
-      "id": "371392283062963"
-  },
-  {
-      "name": "\u05dc\u05e6\u05d0\u05ea \u05de\u05db\u05dc\u05d5\u05d1 \u05d4\u05d6\u05d4\u05d1",
-      "id": "1537729103257241"
-  },
-  {
-      "name": "\u05d2\u05f3\u05d5\u05e0\u05d9\u05d5\u05e8\u05d9\u05dd \u05d1\u05d4\u05d9\u05d9\u05d8\u05e7 \u05d4\u05d9\u05e9\u05e8\u05d0\u05dc\u05d9 - \u05de\u05e9\u05e8\u05d5\u05ea | \u05d8\u05d9\u05e4\u05d9\u05dd | \u05e2\u05d1\u05d5\u05d3\u05d4",
-      "id": "2786770884931764"
-  },
-  {
-      "name": "\"\u05de\u05d4\u05db\u05d5\u05e8\u05e1\u05d0 \u05dc\u05e2\u05ea\u05d9\u05d3 \u05d1\u05d8\u05d5\u05d7\" \u05e7\u05d4\u05d9\u05dc\u05ea \u05d4\u05e9\u05e7\u05e2\u05d5\u05ea \u05e0\u05d3\u05dc\"\u05df \u05d5\u05d4\u05ea\u05e4\u05ea\u05d7\u05d5\u05ea \u05d0\u05d9\u05e9\u05d9\u05ea",
-      "id": "945756935936729"
-  },
-  {
-      "name": "Israeli Unity3d developers",
-      "id": "117674854958307"
-  },
-  {
-      "name": "\u05de\u05d5\u05e6\u05d0\u05d9\u05dd \u05e2\u05d1\u05d5\u05d3\u05d4 \u05d1\u05ea\u05e2\u05e9\u05d9\u05d9\u05ea \u05d4\u05d2\u05d9\u05d9\u05de\u05d9\u05e0\u05d2",
-      "id": "1703362343294912"
-  },
-  {
-      "name": "GameIS (Official)",
-      "id": "475241519195118"
-  },
-  {
-      "name": "\u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 \u05e9\u05d5\u05d5\u05ea \u05d1\u05d9\u05df \u05d7\u05d1\u05e8\u05d9\u05dd",
-      "id": "1434209956684661"
-  },
-  {
-      "name": "\u05de\u05ea\u05db\u05e0\u05ea\u05d9\u05dd \u05e4\u05e8\u05d9\u05dc\u05e0\u05e1\u05e8\u05d9\u05dd",
-      "id": "1502756793303704"
-  },
-  {
-      "name": "\u05e6\u05d5\u05e2\u05d3\u05d9\u05dd \u05e2\u05dd \u05d6\u05d9\u05e7 \u05dc\u05d7\u05d5\u05e4\u05e9 \u05db\u05dc\u05db\u05dc\u05d9",
-      "id": "477736330393641"
-  },
-  {
-      "name": "\u05de\u05ea\u05db\u05e0\u05ea\u05d5\u05ea \u05d5\u05de\u05ea\u05db\u05e0\u05ea\u05d9\u05dd \u05d2'\u05d5\u05e0\u05d9\u05d5\u05e8\u05d9\u05dd",
-      "id": "645409222247058"
-  },
-  {
-      "name": "\u05e6\u05e8\u05d5\u05ea \u05d1\u05d4\u05d9\u05d9\u05d8\u05e7 - \u05de\u05e9\u05e8\u05d5\u05ea \u05d5\u05e2\u05d5\u05d1\u05d3\u05d9\u05dd",
-      "id": "194084838008928"
-  },
-  {
-      "name": "\u05d4\u05e9\u05e7\u05e2\u05d5\u05ea \u05dc\u05e2\u05e6\u05dc\u05e0\u05d9\u05dd",
-      "id": "964269737391041"
-  },
-  {
-      "name": "React.js Israel",
-      "id": "1541217342812064"
-  },
-  {
-      "name": "\u05d1\u05e0\u05d9\u05d4 \u05e7\u05dc\u05d4 \/ \u05de\u05ea\u05e7\u05d3\u05de\u05ea",
-      "id": "970822383424723"
-  },
-  {
-      "name": "\u05de\u05e9\u05e8\u05d5\u05ea \u05d7\u05de\u05d5\u05ea \u05d1\u05e1\u05d8\u05d0\u05e8\u05d8 \u05d0\u05e4\u05d9\u05dd",
-      "id": "140353736108906"
-  },
-  {
-      "name": "\u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 \u05d7\u05de\u05d5\u05ea \u05d1\u05d9\u05df \u05d7\u05d1\u05e8\u05d9\u05dd, \u05dc\u05de\u05ea\u05d7\u05d9\u05dc\u05d9\u05dd !",
-      "id": "190861804281485"
-  },
-  {
-      "name": "\u05de\u05e9\u05e8\u05d5\u05ea \u05de\u05ea\u05db\u05e0\u05ea\u05d9\u05dd\/\u05d5\u05ea",
-      "id": "968761129839470"
-  },
-  {
-      "name": "\u05d8\u05d9\u05e1\u05d5\u05ea \u05e1\u05d5\u05d3\u05d9\u05d5\u05ea - \u05d4\u05e7\u05d4\u05d9\u05dc\u05d4",
-      "id": "293000157875874"
-  }
-]
+// const groups = [
+//   {
+//     name: "\u05d3\u05e8\u05d5\u05e9\u05d9\u05dd - \u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 - \u05de\u05e4\u05ea\u05d7\u05d9\u05dd",
+//     id: "126170691048605",
+//   },
+//   {
+//     name: "\u05d3\u05e8\u05d5\u05e9\u05d9\u05dd - \u05de\u05e9\u05e8\u05d5\u05ea \u05d2\u05d9\u05d9\u05de\u05d9\u05e0\u05d2",
+//     id: "216458105817281",
+//   },
+//   {
+//     name: "\u05de\u05d6\u05d9\u05d6\u05d9 \u05d4\u05d8\u05e8\u05e0\u05e1\u05e4\u05d5\u05e8\u05de\u05d9\u05dd - \u05d4\u05e7\u05d1\u05d5\u05e6\u05d4",
+//     id: "836631284164229",
+//   },
+//   {
+//     name: "\u05d3\u05e8\u05d5\u05e9\u05d9\u05dd - \u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7",
+//     id: "1167283816632326",
+//   },
+//   {
+//     name: '\u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 \u05d1\u05d9\u05df \u05d7\u05d1\u05e8\u05d9\u05dd, \u05dc\u05e4\u05e0\u05d9 \u05e9\u05de\u05ea\u05e4\u05e8\u05e1\u05de\u05d5\u05ea \u05d1\u05d7\u05d1\u05e8\u05d5\u05ea \u05db"\u05d0',
+//     id: "172699927676",
+//   },
+//   {
+//     name: "\u05de\u05e9\u05e8\u05d5\u05ea \u05d1\u05d4\u05d9\u05d9\u05d8\u05e7 \u05d5\u05d1\u05e1\u05d8\u05d0\u05e8\u05d8 \u05d0\u05e4\u05d9\u05dd- \u05e2\u05dd \u05d0\u05d5 \u05d1\u05dc\u05d9 \u05e0\u05e1\u05d9\u05d5\u05df",
+//     id: "609641652802760",
+//   },
+//   {
+//     name: "\u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 \u05d5\u05e9\u05d9\u05d5\u05d5\u05e7 \u05dc\u05dc\u05d0 \u05e0\u05e1\u05d9\u05d5\u05df",
+//     id: "371392283062963",
+//   },
+//   {
+//     name: "\u05dc\u05e6\u05d0\u05ea \u05de\u05db\u05dc\u05d5\u05d1 \u05d4\u05d6\u05d4\u05d1",
+//     id: "1537729103257241",
+//   },
+//   {
+//     name: "\u05d2\u05f3\u05d5\u05e0\u05d9\u05d5\u05e8\u05d9\u05dd \u05d1\u05d4\u05d9\u05d9\u05d8\u05e7 \u05d4\u05d9\u05e9\u05e8\u05d0\u05dc\u05d9 - \u05de\u05e9\u05e8\u05d5\u05ea | \u05d8\u05d9\u05e4\u05d9\u05dd | \u05e2\u05d1\u05d5\u05d3\u05d4",
+//     id: "2786770884931764",
+//   },
+//   {
+//     name: '"\u05de\u05d4\u05db\u05d5\u05e8\u05e1\u05d0 \u05dc\u05e2\u05ea\u05d9\u05d3 \u05d1\u05d8\u05d5\u05d7" \u05e7\u05d4\u05d9\u05dc\u05ea \u05d4\u05e9\u05e7\u05e2\u05d5\u05ea \u05e0\u05d3\u05dc"\u05df \u05d5\u05d4\u05ea\u05e4\u05ea\u05d7\u05d5\u05ea \u05d0\u05d9\u05e9\u05d9\u05ea',
+//     id: "945756935936729",
+//   },
+//   {
+//     name: "Israeli Unity3d developers",
+//     id: "117674854958307",
+//   },
+//   {
+//     name: "\u05de\u05d5\u05e6\u05d0\u05d9\u05dd \u05e2\u05d1\u05d5\u05d3\u05d4 \u05d1\u05ea\u05e2\u05e9\u05d9\u05d9\u05ea \u05d4\u05d2\u05d9\u05d9\u05de\u05d9\u05e0\u05d2",
+//     id: "1703362343294912",
+//   },
+//   {
+//     name: "GameIS (Official)",
+//     id: "475241519195118",
+//   },
+//   {
+//     name: "\u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 \u05e9\u05d5\u05d5\u05ea \u05d1\u05d9\u05df \u05d7\u05d1\u05e8\u05d9\u05dd",
+//     id: "1434209956684661",
+//   },
+//   {
+//     name: "\u05de\u05ea\u05db\u05e0\u05ea\u05d9\u05dd \u05e4\u05e8\u05d9\u05dc\u05e0\u05e1\u05e8\u05d9\u05dd",
+//     id: "1502756793303704",
+//   },
+//   {
+//     name: "\u05e6\u05d5\u05e2\u05d3\u05d9\u05dd \u05e2\u05dd \u05d6\u05d9\u05e7 \u05dc\u05d7\u05d5\u05e4\u05e9 \u05db\u05dc\u05db\u05dc\u05d9",
+//     id: "477736330393641",
+//   },
+//   {
+//     name: "\u05de\u05ea\u05db\u05e0\u05ea\u05d5\u05ea \u05d5\u05de\u05ea\u05db\u05e0\u05ea\u05d9\u05dd \u05d2'\u05d5\u05e0\u05d9\u05d5\u05e8\u05d9\u05dd",
+//     id: "645409222247058",
+//   },
+//   {
+//     name: "\u05e6\u05e8\u05d5\u05ea \u05d1\u05d4\u05d9\u05d9\u05d8\u05e7 - \u05de\u05e9\u05e8\u05d5\u05ea \u05d5\u05e2\u05d5\u05d1\u05d3\u05d9\u05dd",
+//     id: "194084838008928",
+//   },
+//   {
+//     name: "\u05d4\u05e9\u05e7\u05e2\u05d5\u05ea \u05dc\u05e2\u05e6\u05dc\u05e0\u05d9\u05dd",
+//     id: "964269737391041",
+//   },
+//   {
+//     name: "React.js Israel",
+//     id: "1541217342812064",
+//   },
+//   {
+//     name: "\u05d1\u05e0\u05d9\u05d4 \u05e7\u05dc\u05d4 / \u05de\u05ea\u05e7\u05d3\u05de\u05ea",
+//     id: "970822383424723",
+//   },
+//   {
+//     name: "\u05de\u05e9\u05e8\u05d5\u05ea \u05d7\u05de\u05d5\u05ea \u05d1\u05e1\u05d8\u05d0\u05e8\u05d8 \u05d0\u05e4\u05d9\u05dd",
+//     id: "140353736108906",
+//   },
+//   {
+//     name: "\u05de\u05e9\u05e8\u05d5\u05ea \u05d4\u05d9\u05d9\u05d8\u05e7 \u05d7\u05de\u05d5\u05ea \u05d1\u05d9\u05df \u05d7\u05d1\u05e8\u05d9\u05dd, \u05dc\u05de\u05ea\u05d7\u05d9\u05dc\u05d9\u05dd !",
+//     id: "190861804281485",
+//   },
+//   {
+//     name: "\u05de\u05e9\u05e8\u05d5\u05ea \u05de\u05ea\u05db\u05e0\u05ea\u05d9\u05dd/\u05d5\u05ea",
+//     id: "968761129839470",
+//   },
+//   {
+//     name: "\u05d8\u05d9\u05e1\u05d5\u05ea \u05e1\u05d5\u05d3\u05d9\u05d5\u05ea - \u05d4\u05e7\u05d4\u05d9\u05dc\u05d4",
+//     id: "293000157875874",
+//   },
+// ];
 
 export default function WherePage() {
   const navigate = useNavigate();
@@ -125,7 +125,7 @@ export default function WherePage() {
   // const [paymentMethodName, setPaymentMethodName] = useState(
   //   paymentMethod || "PayPal"
   // );
-  const [userGroups, setGroups] = useState<any[]>(groups);
+  const [userGroups, setGroups] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const { mutateAsync: updateUserFb } = useUpdateFacebookMutation();
@@ -273,10 +273,11 @@ export default function WherePage() {
           <>
             <h2>ייבא רשימת קבוצות מהפייסבוק</h2>
             <FacebookLogin
+              // appId="304670265335533"
               appId="187099754302555"
               autoLoad={true}
               version="17.0"
-              fields="name,email,picture,groups"
+              fields="name,picture,groups"
               callback={responseFacebook}
               size="small"
             />
