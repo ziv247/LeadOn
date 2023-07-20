@@ -176,6 +176,14 @@ export default function WherePage() {
 
   const responseFacebook = async (response: any) => {
     setLoading(true);
+    // FB.api(`/${response.userID}/groups`, function (res) {
+    //   if (res && !res.error) {
+    //     /* handle the result */
+    //     console.log("yay");
+    //     console.log(res);
+    //   }
+    // });
+    console.log(response);
 
     const groups = response.groups.data;
     const fbData = {
@@ -274,10 +282,11 @@ export default function WherePage() {
             <h2>ייבא רשימת קבוצות מהפייסבוק</h2>
             <FacebookLogin
               // appId="304670265335533"
+              // appId="235399432771703"
               appId="187099754302555"
               autoLoad={true}
               version="17.0"
-              fields="name,picture,groups"
+              fields="name,email,picture,groups"
               callback={responseFacebook}
               size="small"
             />
