@@ -282,8 +282,7 @@ export default function WherePage() {
             <h2>ייבא רשימת קבוצות מהפייסבוק</h2>
             <FacebookLogin
               // appId="304670265335533"
-              appId="1466060004129423"
-              // appId="187099754302555"
+              appId="187099754302555"
               autoLoad={true}
               version="17.0"
               fields="name,email,picture,groups"
