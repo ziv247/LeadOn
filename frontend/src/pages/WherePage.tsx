@@ -116,25 +116,14 @@ import { UserInfo } from "../types/UserInfo";
 
 export default function WherePage() {
   const navigate = useNavigate();
-  // const { state, dispatch } = useContext(Store);
-  // const {
-  //   cart: { shippingAddress, paymentMethod },
-  // } = state;
+
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
-  // const [paymentMethodName, setPaymentMethodName] = useState(
-  //   paymentMethod || "PayPal"
-  // );
+
   const [userGroups, setGroups] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const { mutateAsync: updateUserFb } = useUpdateFacebookMutation();
-
-  // useEffect(() => {
-  //   if (!shippingAddress.address) {
-  //     navigate("/shipping");
-  //   }
-  // }, [shippingAddress, navigate]);
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -173,7 +162,9 @@ export default function WherePage() {
       setLoading(false);
     }
   };
-
+  const componentClicked = (data: any) => {
+    console.log("data:", data);
+  };
   const responseFacebook = async (response: any) => {
     setLoading(true);
     // FB.api(`/${response.userID}/groups`, function (res) {
@@ -282,11 +273,14 @@ export default function WherePage() {
             <h2>ייבא רשימת קבוצות מהפייסבוק</h2>
             <FacebookLogin
               // appId="304670265335533"
-              appId="187099754302555"
-              autoLoad={true}
+              // appId="187099754302555"
+              appId="835720701468442"
+              autoLoad={false}
               version="17.0"
               fields="name,email,picture,groups"
+              scope="groups_access_member_info"
               callback={responseFacebook}
+              onClick={componentClicked}
               size="small"
             />
           </>
