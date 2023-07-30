@@ -17,16 +17,22 @@
     <title>לידאון</title>
   </head>
   <body>
-    <!-- <script>
+   
+    <script>
       window.fbAsyncInit = function () {
         FB.init({
-          appId: "187099754302555",
+          appId: "835720701468442",
           cookie: true,
           xfbml: true,
           version: "v17.0",
         });
 
         FB.AppEvents.logPageView();
+        FB.getLoginStatus(function(response) {
+          console.log("res")
+          console.log(response)
+    statusChangeCallback(response);
+});
       };
 
       (function (d, s, id) {
@@ -40,7 +46,8 @@
         js.src = "https://connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
       })(document, "script", "facebook-jssdk");
-    </script> -->
+    </script>
+    
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

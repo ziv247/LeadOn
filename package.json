@@ -11,6 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/facebook-js-sdk": "^3.3.6",
     "react-facebook-login": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.5"
   }
 }
