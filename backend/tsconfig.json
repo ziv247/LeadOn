@@ -2,12 +2,6 @@
   "compilerOptions": {
     "target": "es2015",
     "outDir": "./build",
-    "types": [
-      "node",
-      // "gapi", // google
-      // "gapi.auth2", // google
-      "facebook-js-sdk" // facebook
-    ],
     "strict": true,
     "module": "commonjs",
     "esModuleInterop": true,
