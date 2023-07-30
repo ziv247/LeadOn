@@ -17,7 +17,6 @@
     <title>לידאון</title>
   </head>
   <body>
-   
     <script>
       window.fbAsyncInit = function () {
         FB.init({
@@ -28,11 +27,11 @@
         });
 
         FB.AppEvents.logPageView();
-        FB.getLoginStatus(function(response) {
-          console.log("res")
-          console.log(response)
-    statusChangeCallback(response);
-});
+        FB.getLoginStatus(function (response) {
+          console.log("res");
+          console.log(response);
+          statusChangeCallback(response);
+        });
       };
 
       (function (d, s, id) {
@@ -47,7 +46,7 @@
         fjs.parentNode.insertBefore(js, fjs);
       })(document, "script", "facebook-jssdk");
     </script>
-    
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
