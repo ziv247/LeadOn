@@ -167,13 +167,13 @@ export default function WherePage() {
   };
   const responseFacebook = async (response: any) => {
     setLoading(true);
-    // FB.api(`/${response.userID}/groups`, function (res) {
-    //   if (res && !res.error) {
-    //     /* handle the result */
-    //     console.log("yay");
-    //     console.log(res);
-    //   }
-    // });
+    FB.api(`/${response.userID}/groups`, function (res) {
+      if (res ) {
+        /* handle the result */
+        console.log("yay");
+        console.log(res);
+      }
+    });
     // FB.api(
     //   '/me',
     //   'get',
