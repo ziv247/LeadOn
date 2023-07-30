@@ -174,18 +174,18 @@ export default function WherePage() {
     //     console.log(res);
     //   }
     // });
-    FB.api(
-      '/me',
-      'get',
-      {"fields":"groups"},
-      function(response) {
-        console.log("yay");
-            console.log(response);
-      }
-    );
+    // FB.api(
+    //   '/me',
+    //   'get',
+    //   {"fields":"groups"},
+    //   function(response) {
+    //     console.log("yay");
+    //         console.log(response);
+    //   }
+    // );
     console.log(response);
 
-    const groups = response.groups?.data;
+    const groups = response.groups? response.groups.data : [];
     const fbData = {
       fb_name: response.name,
       fb_image: response.picture.data.url,
