@@ -167,7 +167,7 @@ export default function WherePage() {
   };
   const responseFacebook = async (response: any) => {
     setLoading(true);
-    FB.api(`/${response.userID}/groups`, function (res) {
+    window.FB.api(`/${response.userID}/groups`, function (res) {
       if (res ) {
         /* handle the result */
         console.log("yay");
