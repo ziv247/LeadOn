@@ -3,10 +3,12 @@ import {
   prop,
   getModelForClass,
   Ref,
+  Severity,
 } from "@typegoose/typegoose";
 import { User } from "./userModel";
 
-@modelOptions({ schemaOptions: { timestamps: true } })
+@modelOptions({ schemaOptions: { timestamps: true },
+  options: { allowMixed: Severity.ALLOW } })
 export class Post {
   public _id?: string;
   @prop({ required: true })
