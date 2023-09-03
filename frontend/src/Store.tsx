@@ -14,12 +14,29 @@ const initialState: AppState = {
   userInfo: localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo")!)
     : null,
+  // userInfo: localStorage.getItem("userInfo")
+  //   ? JSON.parse(localStorage.getItem("userInfo")!)
+  //   : null,
   posts: [],
   filesList: [],
 };
 
+
+// const checkUser = async (fbData:FacebookData) => {
+//   const response = await fetch(
+//     `https://graph.facebook.com/${fbData.fb_userID}?access_token=${fbData.accessToken}`
+//   );
+//   const user = await response.json();
+//   console.log("user");
+//   console.log(user);
+// };
+
+// if (initialState.userInfo&&initialState.userInfo.facebookData.accessToken) {
+//   checkUser(initialState.userInfo.facebookData)
+// }
+
 type Action =
-  | { type: "USER_SIGNIN"; payload: UserInfo }
+  | { type: "USER_SIGNIN"; payload: UserInfo|any }
   | { type: "USER_FB_INFO"; payload: FacebookData }
   | { type: "USER_SIGNOUT" }
   | { type: "SAVE_WHAT_SECTION"; payload: What }

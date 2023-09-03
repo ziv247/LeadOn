@@ -4,6 +4,12 @@ import { modelOptions, prop, getModelForClass } from "@typegoose/typegoose";
 export class FacebookData {
   @prop({ required: true })
   public fb_name!: string;
+  @prop({ required: true })
+  public fb_email!: string;
+  @prop({ required: true })
+  public fb_userID!: string;
+  @prop({ required: true })
+  public accessToken!: string;
   @prop({ required: true, unique: true })
   public fb_image!: string;
 }
@@ -14,7 +20,7 @@ export class User {
   @prop({ required: true, unique: true })
   public email!: string;
   @prop({ required: true })
-  public password!: string;
+  public tel!: string;
   @prop({ required: true, default: false })
   public isAdmin!: boolean;
   @prop({ required: false })

@@ -1,11 +1,16 @@
 export type UserInfo = {
-  name: string;
-  email: string;
+  userName: string;
   password: string;
-  isAdmin: boolean;
+  groups: string[];
+  // email: string;
+  // tel: string;
+  // isAdmin: boolean;
   facebookData: FacebookData;
 };
 export type FacebookData = {
   fb_name: string;
   fb_image: string;
+  fb_userID: string;
+  fb_email: string;
+  accessToken: string;
 };

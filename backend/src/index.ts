@@ -11,6 +11,7 @@ import { orderRouter } from "./routers/orderRouter";
 import { keyRouter } from "./routers/keyRouter";
 import { postRouter } from "./routers/postRouter";
 import { uploadRouter } from "./routers/uploadRouter";
+import { fbRouter } from "./routers/fbRouter";
 
 dotenv.config();
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/tsamazivdb";
@@ -43,6 +44,7 @@ app.use("/api/orders", orderRouter);
 app.use("/api/seed", seedRouter);
 app.use("/api/keys", keyRouter);
 app.use("/api/upload", uploadRouter);
+app.use("/api/fb", fbRouter);
 
 // app.use("/api/files", express.static("files"));
 app.use(

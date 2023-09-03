@@ -23,11 +23,11 @@ function App() {
   const signoutHandler = () => {
     dispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
-    localStorage.removeItem("cartItems");
-    localStorage.removeItem("shippingAddress");
-    localStorage.removeItem("paymentMethod");
     window.location.href = "/signin";
   };
+
+
+  
 
   return (
     <ThemeProvider dir="rtl">

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import { Helmet } from "react-helmet-async";
@@ -123,7 +123,6 @@ export default function WherePage() {
   const [userGroups, setGroups] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
-  const { mutateAsync: updateUserFb } = useUpdateFacebookMutation();
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -146,6 +145,7 @@ export default function WherePage() {
     newGroups.map((grp: any) => {
       if (grp.id === group.id) {
         grp.isChecked = e.target.checked;
+        console.log(e.target.value)
       }
     });
 
@@ -155,51 +155,56 @@ export default function WherePage() {
   const loadMoreGroupsHandler = async (next: string) => {
     const res = await axios.get(next);
 
-    setGroups((prev) => [...prev, ...res.data.data]);
+    setGroups((prev) => [...new Set([...prev, ...res.data.data])]);
     if (res.data.paging.next) {
       loadMoreGroupsHandler(res.data.paging.next);
     } else {
       setLoading(false);
     }
   };
-  const componentClicked = (data: any) => {
-    console.log("data:", data);
-  };
 
-  const logGroups = async (accessToken: string) => {
+  const logGroups = async () => {
     const response = await fetch(
-      `https://graph.facebook.com/v17.0/me/groups?access_token=${accessToken}`
+      `https://graph.facebook.com/v17.0/me/groups?access_token=${userInfo.facebookData.accessToken}`
     );
     const groups = await response.json();
-    console.log(groups);
-  };
-
-  const responseFacebook = async (response: any) => {
-    setLoading(true);
-
-    console.log(response);
-    logGroups(response.accessToken);
-    const groups = response.groups ? response.groups.data : [];
-    const fbData = {
-      fb_name: response.name,
-      fb_image: response.picture.data.url,
-    };
-    dispatch({ type: "USER_FB_INFO", payload: fbData });
-    const newUserInfo: UserInfo = { ...userInfo };
-    newUserInfo.facebookData = fbData;
-
-    await updateUserFb(newUserInfo);
-
-    localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
-
-    groups.map((grp: { isChecked: boolean }) => (grp.isChecked = false));
-    setGroups(groups);
-    if (response.groups.paging.next) {
-      loadMoreGroupsHandler(response.groups.paging.next);
+    const groupsArr = groups ? groups.data : [];
+    console.log(groupsArr);
+    groupsArr.map((grp: { isChecked: boolean }) => (grp.isChecked = false));
+    setGroups(groupsArr);
+    if (groups.paging.next) {
+      loadMoreGroupsHandler(groups.paging.next);
     } else {
       setLoading(false);
     }
   };
+
+  // const responseFacebook = async (response: any) => {
+  //   setLoading(true);
+
+  //   console.log(response);
+  //   logGroups(response.accessToken);
+  //   const groups = response.groups ? response.groups.data : [];
+  //   const fbData = {
+  //     fb_name: response.name,
+  //     fb_image: response.picture.data.url,
+  //   };
+  //   dispatch({ type: "USER_FB_INFO", payload: fbData });
+  //   const newUserInfo: UserInfo = { ...userInfo };
+  //   newUserInfo.facebookData = fbData;
+
+  //   await updateUserFb(newUserInfo);
+
+  //   localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
+
+  //   groups.map((grp: { isChecked: boolean }) => (grp.isChecked = false));
+  //   setGroups(groups);
+  //   if (response.groups.paging.next) {
+  //     loadMoreGroupsHandler(response.groups.paging.next);
+  //   } else {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div>
@@ -237,6 +242,7 @@ export default function WherePage() {
                         label={group.name}
                         onChange={(e) => onCheckedHandler(e, group)}
                         checked={group.isChecked}
+                        value="on"
                       />
                     </div>
                   )
@@ -273,8 +279,10 @@ export default function WherePage() {
           </Form>
         ) : (
           <>
-            <h2>ייבא רשימת קבוצות מהפייסבוק</h2>
-            <FacebookLogin
+            <h2>מייבא רשימת קבוצות מהפייסבוק</h2>
+            {/* <LoadingBox /> */}
+            <Button onClick={logGroups}>יבא</Button>
+            {/* <FacebookLogin
               // appId="304670265335533"
               // appId="187099754302555"
               appId="835720701468442"
@@ -285,7 +293,7 @@ export default function WherePage() {
               callback={responseFacebook}
               onClick={componentClicked}
               size="small"
-            />
+            /> */}
           </>
         )}
       </div>

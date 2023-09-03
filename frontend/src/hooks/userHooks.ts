@@ -37,26 +37,38 @@ export const useFacebookSigninMutation = () =>
       ).data,
   });
 
-  export const useUpdateFacebookMutation = () =>
+export const useUpdateFacebookMutation = () =>
   useMutation({
     mutationFn: async (user: UserInfo) =>
-      (await apiClient.post<{ message: string; user: UserInfo }>("api/users/updateFb", user))
-        .data,
+      (
+        await apiClient.post<{ message: string; user: UserInfo }>(
+          "api/users/updateFb",
+          user
+        )
+      ).data,
   });
 
 export const useSigninMutation = () =>
   useMutation({
     mutationFn: async ({
-      email,
+      userName,
       password,
     }: {
-      email: string;
+      userName: string;
       password: string;
+      // password: string;
     }) =>
       (
-        await apiClient.post<UserInfo>(`api/users/signin`, {
-          email,
+        await apiClient.post<{
+          groups: string[];
+          details: { authenticated: boolean; user: boolean; success: boolean };
+          items: string[];
+          userName: string;
+          password: string;
+        }>(`api/fb/login`, {
+          userName,
           password,
+          // password,
         })
       ).data,
   });
@@ -66,31 +78,30 @@ export const useSignupMutation = () =>
     mutationFn: async ({
       name,
       email,
-      password,
+      tel,
+      facebookData,
     }: {
       name: string;
       email: string;
-      password: string;
+      tel: string;
+      facebookData: FacebookData;
     }) =>
       (
         await apiClient.post<UserInfo>(`api/users/signup`, {
           name,
           email,
-          password,
+          tel,
+          facebookData,
         })
       ).data,
   });
 
 export const useUpdateFbInfoMutation = () =>
   useMutation({
-    mutationFn: async ({
-      facebookData
-    }: {
-      facebookData: FacebookData;
-    }) =>
+    mutationFn: async ({ facebookData }: { facebookData: FacebookData }) =>
       (
         await apiClient.post<FacebookData>(`api/users/facebook`, {
-          facebookData
+          facebookData,
         })
       ).data,
   });
