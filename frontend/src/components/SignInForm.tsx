@@ -1,6 +1,5 @@
 import { Button, Form } from "react-bootstrap";
 import LoadingBox from "./LoadingBox";
-import { Link } from "react-router-dom";
 import { FormEventHandler } from "react";
 
 export default function SignInForm(props: { submitHandler: FormEventHandler<HTMLFormElement> | undefined; setUserName: (arg0: string) => void; setPassword: (arg0: string) => void; }) {

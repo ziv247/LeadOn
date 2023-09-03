@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,  useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import { Helmet } from "react-helmet-async";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { Button, Form } from "react-bootstrap";
-import FacebookLogin from "react-facebook-login";
 import axios from "axios";
 import LoadingBox from "../components/LoadingBox";
-import { useUpdateFacebookMutation } from "../hooks/userHooks";
-import { UserInfo } from "../types/UserInfo";
 
 // const groups = [
 //   {
@@ -117,7 +114,7 @@ import { UserInfo } from "../types/UserInfo";
 export default function WherePage() {
   const navigate = useNavigate();
 
-  const { state, dispatch } = useContext(Store);
+  const { state } = useContext(Store);
   const { userInfo } = state;
 
   const [userGroups, setGroups] = useState<any[]>([]);

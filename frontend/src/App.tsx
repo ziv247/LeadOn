@@ -52,7 +52,7 @@ function App() {
                 </Link>
                   {userInfo ? (
                     <NavDropdown
-                      title={`שלום, ${userInfo.name}`}
+                      title={`שלום, userInfo.name`}
                       className="header-link"
                     >
                       {/* <LinkContainer to="/profile">

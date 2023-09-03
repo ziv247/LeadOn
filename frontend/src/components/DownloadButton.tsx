@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import jsPDF from "jspdf";
 import JSZip from "jszip";
-import { useContext, useRef } from "react";
+import {  useRef } from "react";
 import { Button } from "react-bootstrap";
 import "../../src/arial-normal.js";
-import { Store } from "../Store.js";
 
 const DownloadButton = (props: { post: any }) => {
   const { post } = props;
   const aTag = useRef<HTMLAnchorElement>(null);
-  const { state, } = useContext(Store);
-  const { userInfo } = state;
 
   const onClickHandler = async () => {
     const promises = post.what.files.map(async (url: RequestInfo | URL) => {
@@ -95,7 +92,7 @@ const DownloadButton = (props: { post: any }) => {
       <a
         ref={aTag}
         style={{ display: "none" }}
-        download={userInfo.name + "_" + new Date().toDateString() + ".zip"}
+        download={"userInfo.name" + "_" + new Date().toDateString() + ".zip"}
       ></a>
     </div>
   );

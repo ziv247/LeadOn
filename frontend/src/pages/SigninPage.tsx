@@ -1,18 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { Store } from "../Store";
 import {
   useSigninMutation,
-  useUpdateFacebookMutation,
 } from "../hooks/userHooks";
 import { getError } from "../utils";
 import { ApiError } from "../types/ApiError";
 import { toast } from "react-toastify";
-import { Button, Container, Form } from "react-bootstrap";
+import {  Container } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
-import FacebookLogin from "react-facebook-login";
-import { FacebookData, UserInfo } from "../types/UserInfo";
 import SignupPage from "./SignupPage";
 import SignInForm from "../components/SignInForm";
 
@@ -29,9 +26,9 @@ export default function SigninPage() {
   const { state, dispatch } = useContext(Store);
   const { userInfo } = state;
 
-  const [isLoggedinFb, setIsLoggedinFb] = useState(false);
+  const [isLoggedinFb] = useState(false);
 
-  const { mutateAsync: signin, error } = useSigninMutation();
+  const { mutateAsync: signin } = useSigninMutation();
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     setIsLoading(true);
@@ -68,45 +65,45 @@ export default function SigninPage() {
     }
   }, [navigate, redirect, userInfo]);
 
-  const { mutateAsync: updateUserFb } = useUpdateFacebookMutation();
+  // const { mutateAsync: updateUserFb } = useUpdateFacebookMutation();
 
-  const responseFacebook = async (response: any) => {
-    // setLoading(true);
+  // const responseFacebook = async (response: any) => {
+  //   // setLoading(true);
 
-    console.log(response);
-    // logGroups(response.accessToken);
-    // const groups = response.groups ? response.groups.data : [];
-    const fbData: FacebookData = {
-      fb_name: response.name,
-      fb_image: response.picture.data.url,
-      fb_userID: response.userID,
-      fb_email: response.email,
-      accessToken: response.accessToken,
-    };
-    let newUserInfo: UserInfo;
+  //   console.log(response);
+  //   // logGroups(response.accessToken);
+  //   // const groups = response.groups ? response.groups.data : [];
+  //   const fbData: FacebookData = {
+  //     fb_name: response.name,
+  //     fb_image: response.picture.data.url,
+  //     fb_userID: response.userID,
+  //     fb_email: response.email,
+  //     accessToken: response.accessToken,
+  //   };
+  //   let newUserInfo: UserInfo;
 
-    try {
-      newUserInfo = await signin({
-        facebookData: fbData,
-        // password,
-      });
+  //   try {
+  //     newUserInfo = await signin({
+  //       facebookData: fbData,
+  //       // password,
+  //     });
 
-      console.log("data");
-      console.log(newUserInfo);
+  //     console.log("data");
+  //     console.log(newUserInfo);
 
-      dispatch({ type: "USER_SIGNIN", payload: newUserInfo });
-      localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
-      navigate(redirect || "/");
-    } catch (error) {
-      dispatch({ type: "USER_FB_INFO", payload: fbData });
-      newUserInfo = { ...userInfo } as UserInfo;
+  //     dispatch({ type: "USER_SIGNIN", payload: newUserInfo });
+  //     localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
+  //     navigate(redirect || "/");
+  //   } catch (error) {
+  //     dispatch({ type: "USER_FB_INFO", payload: fbData });
+  //     newUserInfo = { ...userInfo } as UserInfo;
 
-      setIsLoggedinFb(true);
-      // toast.error(getError(error as ApiError));
-    }
-    newUserInfo.facebookData = fbData;
-    localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
-  };
+  //     setIsLoggedinFb(true);
+  //     // toast.error(getError(error as ApiError));
+  //   }
+  //   newUserInfo.facebookData = fbData;
+  //   localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
+  // };
 
   return (
     <Container className="small-container">

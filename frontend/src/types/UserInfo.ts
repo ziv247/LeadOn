@@ -2,9 +2,9 @@ export type UserInfo = {
   userName: string;
   password: string;
   groups: string[];
-  // email: string;
-  // tel: string;
-  // isAdmin: boolean;
+  email: string;
+  tel: string;
+  isAdmin: boolean;
   facebookData: FacebookData;
 };
 export type FacebookData = {
